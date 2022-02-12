@@ -1,22 +1,42 @@
-import React from "react";
 import "./App.css";
 import { NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import ComparePage from "./pages/ComparePage";
-import PokemonPage from "./pages/PokemonPage";
+import PokemonUrl from "./models/pokemonUrl";
+import { useEffect, useState } from "react";
+import PokemonDetails from "./pages/PokemonDetails";
 
-function App() {
+const App = () => {
+    const [pokemons, setPokemons] = useState<PokemonUrl[]>([]);
+
+    useEffect(() => {
+        fetchPokemons();
+    }, []);
+
+    async function fetchPokemons() {
+        await fetch("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=-1")
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => setPokemons(data.results));
+    }
+
     return (
         <div>
-          <ul>
-            <li><NavLink to='/'>Home</NavLink></li>
-            <li><NavLink to='/compare'>Compare Page</NavLink></li>
-            <li><NavLink to='/pokemon'>Pokemon Page</NavLink></li>
-          </ul>
+            <ul className="nav">
+                <li>
+                    <NavLink to="/">Home</NavLink>
+                </li>
+            </ul>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="compare" element={<ComparePage />} />
-                <Route path="pokemon" element={<PokemonPage />} />
+                <Route path="/" element={<Home poke={pokemons}/>} />
+                <Route
+                    path="*"
+                    element={
+                        <main>
+                            <p>No pokemon found</p>
+                        </main>
+                    }
+                />
             </Routes>
         </div>
     );

@@ -1,29 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { FC } from "react";
+import PokemonUrl from "../models/pokemonUrl";
+import PokemonItem from "./PokemonItem";
 
-type pokemons = {
-    name: string;
-    url: string;
-}
+const Home: FC<{ poke: PokemonUrl[] }> = (props) => {
 
-const Home = () => {
-    const [pok, setPok] = useState<pokemons[]>();
-
-    useEffect(() => {
-        fetchPokemons();
-    }, [])
-
-    const fetchPokemons = () => {
-        fetch('https://pokeapi.co/api/v2/pokemon/').then(response => {
-            return response.json();
-        }).then((data) => {
-            setPok(data.results);
-        })
-    }
-    
     return (
         <div>
-            <h2>Home Page</h2>
-            {pok?.map(i => <p key={i.url}>{i.name}</p>)}
+            <h1>Home Page</h1>
+            <ul>
+                {props.poke.map((i) => (
+                    <PokemonItem pokemon={i} key={i.name}>
+                        <p>{i.name}</p>
+                    </PokemonItem>
+                ))}
+            </ul>
         </div>
     );
 };
