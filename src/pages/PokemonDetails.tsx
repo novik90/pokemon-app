@@ -28,7 +28,7 @@ const PokemonDetails = () => {
 
     return (
         <div>
-            <h1>Pokemon</h1>
+            <h1>{pokemonObject?.name.replace(pokemonObject?.name[0], pokemonObject?.name[0].toUpperCase())}</h1>
             <div className={classes.common}>
                 <div className={classes.common__item}>
                     <img alt='picture' src={pokemonObject?.sprites?.front_default}></img>
