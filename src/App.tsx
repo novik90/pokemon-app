@@ -2,9 +2,8 @@ import "./App.css";
 import { NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import PokemonUrl from "./models/pokemonUrl";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PokemonDetails from "./pages/PokemonDetails";
-import { cleanup } from "@testing-library/react";
 
 const App = () => {
     const [pokemons, setPokemons] = useState<PokemonUrl[]>([]);
@@ -32,6 +31,7 @@ const App = () => {
             </ul>
             <Routes>
                 <Route path="/" element={<Home pokemon={pokemons} />} />
+                <Route path="pokemon/:name" element={<PokemonDetails />} />
             </Routes>
         </div>
     );

@@ -20,10 +20,9 @@ const PokemonItem: FC<{ pokemon: PokemonUrl }> = (props) => {
 
     return (
         <li>
-            <Link onClick={handler} to={"#"}>
+            <Link onClick={handler} to={"pokemon/"+props.pokemon.name}>
                 {props.pokemon.name}
             </Link>
-            <img  src={img}/>
         </li>
     );
 };
