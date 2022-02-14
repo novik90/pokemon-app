@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
+import { Link } from "react-router-dom";
 import PokemonUrl from "../models/pokemonUrl";
 
 const PokemonItem: FC<{ pokemon: PokemonUrl }> = (props) => {
-
     const [img, setImg] = useState<string>();
 
     const handler = () => {
@@ -10,18 +10,20 @@ const PokemonItem: FC<{ pokemon: PokemonUrl }> = (props) => {
             await fetch(props.pokemon.url)
                 .then((response) => {
                     return response.json();
-                }).then(data => {
-                    console.log(data.sprites.front_default)
-                    setImg(data.sprites.front_default);
                 })
+                .then((data) => {
+                    setImg(data.sprites.front_default);
+                });
         }
         return fetchPokemons();
-    }
+    };
 
     return (
         <li>
-            <a onClick={handler} href={'#'}>{props.pokemon.name}</a>
-            <img src={img} alt="" />
+            <Link onClick={handler} to={"#"}>
+                {props.pokemon.name}
+            </Link>
+            <img  src={img}/>
         </li>
     );
 };
