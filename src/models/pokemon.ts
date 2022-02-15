@@ -1,99 +1,237 @@
-class Sprites {
-    back_default: string;
-    back_female: null;
-    back_shiny: string;
-    back_shiny_female: null;
-    front_default: string;
-    front_female: null;
-    front_shiny: string;
-    front_shiny_female: null;
-    other: {};
-    versions: {};
-
-    constructor(
-        back_default: string,
-        back_female: null,
-        back_shiny: string,
-        back_shiny_female: null,
-        front_default: string,
-        front_female: null,
-        front_shiny: string,
-        front_shiny_female: null,
-        other: {},
-        versions: {},
-    ) {
-        this.back_default = back_default;
-        this.back_female = back_female;
-        this.back_shiny = back_shiny;
-        this.back_shiny_female = back_shiny_female;
-        this.front_default = front_default;
-        this.front_female = front_female;
-        this.front_shiny = front_shiny;
-        this.front_shiny_female = front_shiny_female;
-        this.other = other;
-        this.versions = versions
-    }
-}
-
-class Pokemon {
-    abilities: [];
+export interface Pokemon {
+    abilities: Ability[];
     base_experience: number;
-    forms: [];
-    game_indices: [];
+    forms: NameUrl[];
+    game_indices: GameIndice[];
     height: number;
-    held_items: [];
+    held_items: HeldItem[];
     id: number;
     is_default: boolean;
     location_area_encounters: string;
-    movies: [];
+    moves: Move[];
     name: string;
     order: number;
-    past_types: [];
-    species: {};
+    past_types: any[];
+    species: NameUrl;
     sprites: Sprites;
-    stats: [];
-    types: [];
+    stats: Stat[];
+    types: Type[];
     weight: number;
-
-    constructor(
-        abilities: [],
-        base_experience: number,
-        forms: [],
-        game_indices: [],
-        height: number,
-        held_items: [],
-        id: number,
-        is_default: boolean,
-        location_area_encounters: string,
-        movies: [],
-        name: string,
-        order: number,
-        past_types: [],
-        species: {},
-        sprites: Sprites,
-        stats: [],
-        types: [],
-        weight: number,
-    ) {
-        this.abilities = abilities,
-        this.base_experience = base_experience,
-        this.forms = forms,
-        this.game_indices = game_indices, 
-        this.height = height,
-        this.held_items = held_items,
-        this.id = id,
-        this.is_default = is_default,
-        this.location_area_encounters = location_area_encounters, 
-        this.movies = movies,
-        this.name = name,
-        this.order = order,
-        this.past_types = past_types,
-        this.species = species,
-        this.sprites = sprites,
-        this.stats = stats,
-        this.types = types,
-        this.weight = weight
-    }
 }
 
-export default Pokemon;
+export interface PokemonUrl {
+    name: string,
+    url: string
+}
+
+interface NameUrl {
+    name: string;
+    url: string;
+}
+
+interface Ability {
+    ability: NameUrl;
+    is_hidden: boolean;
+    slot: number;
+}
+
+interface GameIndice {
+    game_index: number;
+    version: NameUrl;
+}
+
+interface VersionDetail {
+    rarity: number;
+    version: NameUrl;
+}
+
+interface HeldItem {
+    item: NameUrl;
+    version_details: VersionDetail[];
+}
+
+interface VersionGroupDetail {
+    level_learned_at: number;
+    move_learn_method: NameUrl;
+    version_group: NameUrl;
+}
+
+interface Move {
+    move: NameUrl;
+    version_group_details: VersionGroupDetail[];
+}
+
+interface DreamWorld {
+    front_default: string;
+    front_female?: any;
+}
+
+interface Front {
+    front_default: string;
+    front_female?: any;
+    front_shiny: string;
+    front_shiny_female?: any;
+}
+
+interface OfficialArtwork {
+    front_default: string;
+}
+
+interface Other {
+    dream_world: DreamWorld;
+    home: Front;
+    "official-artwork": OfficialArtwork;
+}
+
+interface RedBlue {
+    back_default: string;
+    back_gray: string;
+    back_transparent: string;
+    front_default: string;
+    front_gray: string;
+    front_transparent: string;
+}
+
+interface Yellow {
+    back_default: string;
+    back_gray: string;
+    back_transparent: string;
+    front_default: string;
+    front_gray: string;
+    front_transparent: string;
+}
+
+interface GenerationI {
+    "red-blue": RedBlue;
+    yellow: Yellow;
+}
+
+interface Crystal {
+    back_default: string;
+    back_shiny: string;
+    back_shiny_transparent: string;
+    back_transparent: string;
+    front_default: string;
+    front_shiny: string;
+    front_shiny_transparent: string;
+    front_transparent: string;
+}
+
+interface Gold {
+    back_default: string;
+    back_shiny: string;
+    front_default: string;
+    front_shiny: string;
+    front_transparent: string;
+}
+
+interface Silver {
+    back_default: string;
+    back_shiny: string;
+    front_default: string;
+    front_shiny: string;
+    front_transparent: string;
+}
+
+interface GenerationIi {
+    crystal: Crystal;
+    gold: Gold;
+    silver: Silver;
+}
+
+interface Emerald {
+    front_default: string;
+    front_shiny: string;
+}
+
+interface FireredLeafgreen {
+    back_default: string;
+    back_shiny: string;
+    front_default: string;
+    front_shiny: string;
+}
+
+interface RubySapphire {
+    back_default: string;
+    back_shiny: string;
+    front_default: string;
+    front_shiny: string;
+}
+
+interface GenerationIii {
+    emerald: Emerald;
+    "firered-leafgreen": FireredLeafgreen;
+    "ruby-sapphire": RubySapphire;
+}
+
+interface BackFront extends Front {
+    back_default: string;
+    back_female?: any;
+    back_shiny: string;
+    back_shiny_female?: any;
+}
+
+interface GenerationIv {
+    "diamond-pearl": BackFront;
+    "heartgold-soulsilver": BackFront;
+    platinum: BackFront;
+}
+
+interface BackFrontAnimated extends BackFront {
+    animated: BackFront;
+}
+
+interface GenerationV {
+    "black-white": BackFrontAnimated;
+}
+
+interface GenerationVi {
+    "omegaruby-alphasapphire": Front;
+    "x-y": Front;
+}
+
+interface Icons {
+    front_default: string;
+    front_female?: any;
+}
+
+interface GenerationVii {
+    icons: Icons;
+    "ultra-sun-ultra-moon": Front;
+}
+
+interface Icons2 {
+    front_default: string;
+    front_female?: any;
+}
+
+interface GenerationViii {
+    icons: Icons2;
+}
+
+interface Versions {
+    "generation-i": GenerationI;
+    "generation-ii": GenerationIi;
+    "generation-iii": GenerationIii;
+    "generation-iv": GenerationIv;
+    "generation-v": GenerationV;
+    "generation-vi": GenerationVi;
+    "generation-vii": GenerationVii;
+    "generation-viii": GenerationViii;
+}
+
+interface Sprites extends BackFront {
+    other: Other;
+    versions: Versions;
+}
+
+interface Stat {
+    base_stat: number;
+    effort: number;
+    stat: NameUrl;
+}
+
+interface Type {
+    slot: number;
+    type: NameUrl;
+}
