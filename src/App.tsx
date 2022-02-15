@@ -1,8 +1,6 @@
 import "./App.css";
 import { NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import { PokemonUrl } from "./models/pokemon";
-import { useEffect, useState } from "react";
 import PokemonDetails from "./pages/PokemonDetails";
 
 const App = () => {

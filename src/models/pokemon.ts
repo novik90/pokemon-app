@@ -21,7 +21,9 @@ export interface Pokemon {
 
 export interface PokemonUrl {
     name: string,
-    url: string
+    url: string,
+    previous: string,
+    next: string
 }
 
 interface NameUrl {
