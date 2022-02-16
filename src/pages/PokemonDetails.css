@@ -24,14 +24,29 @@
     margin: 8px;
     padding: 2px 6px;
     font-weight: 700;
+    color: #fff;
 }
 
 .type-grass {
     background-color: #9BCC50;
-    color: #fff;
 }
 
 .type-poison {
     background-color: #B97FC9;
-    color: #fff;
+}
+
+.type-dark {
+    background-color: #707070;
+}
+
+.type-normal {
+    background-color: #A4ACAF;
+}
+
+.type-fire {
+    background-color: #FD7D24;
+}
+
+.type-water {
+    background-color: #4592C4;
 }
