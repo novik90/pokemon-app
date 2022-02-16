@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import classes from "./PokemonDetails.module.css";
+import "./PokemonDetails.css";
 import { Pokemon } from "../models/pokemon";
 
 const PokemonDetails = () => {
@@ -29,20 +29,40 @@ const PokemonDetails = () => {
                     pokemonObject?.name[0].toUpperCase()
                 )}
             </h1>
-            <div className={classes.common}>
-                <div className={classes.common__item}>
+            <div className={"common"}>
+                <div className={"common__item"}>
                     <img
                         alt={pokemonObject?.name}
                         src={pokemonObject?.sprites?.front_default}
                     ></img>
                 </div>
-                <div className={classes.common__item}>
+                <div className={"common__item"}>
                     <p>Height</p>
                     <span>{pokemonObject?.height}</span>
                 </div>
-                <div className={classes.common__item}>
+                <div className={"common__item"}>
                     <p>Weight</p>
                     <span>{pokemonObject?.weight}</span>
+                </div>
+            </div>
+            <div>
+                <h3>Stats</h3>
+                <div className="stats">
+                    <ul>
+                        {pokemonObject?.stats.map((i, index) => (
+                            <li key={index}>{i.stat.name} - {i.base_stat}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h3>Types</h3>
+                <div className="types">
+                    {pokemonObject?.types.map((i, index) => (
+                        <span className={`type-${i.type.name}`} key={index}>
+                            {i.type.name}
+                        </span>
+                    ))}
                 </div>
             </div>
         </div>
