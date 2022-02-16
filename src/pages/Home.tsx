@@ -1,14 +1,15 @@
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { PokemonUrl } from "../models/pokemon";
 import PokemonItem from "./PokemonItem";
 
 const Home = () => {
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const [count, setCount] = useState(0);
     const [limit, setLimit] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
     const [offsetPage, setOffsetPage] = useState(0);
-
     const [pokemons, setPokemons] = useState<PokemonUrl[]>([]);
+    const [allPokemons, setAllPokemons] = useState<PokemonUrl[]>([]);    
 
     const changeItemsHandler = (num: FormEvent<HTMLSelectElement>) => {
         const pageNum = parseInt(num.currentTarget.value);
@@ -37,74 +38,98 @@ const Home = () => {
         setOffsetPage((prev) => prev + limit);
     };
 
-    const fetchPokemons = async () => {
-        await fetch(
-            `https://pokeapi.co/api/v2/pokemon/?offset=${offsetPage}&limit=${limit}`
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
+    const fetchPokemons = async (a: number, b: number, c?: boolean) => {
+        let response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/?offset=${a}&limit=${b}`
+        );
+        // .then((response) => {
+        //     return response.json();
+        // })
+        // .then((data) => {
+        //     const pages = data.count / limit;
+        //     setCount(pages);
+        //     setPokemons(data.results);
+        // });
+        if (c) {
+            response.json().then((data) => {
+                setAllPokemons(data.results);
+            });
+            return;
+        }
+
+        if (response.ok) {
+            response.json().then((data) => {
                 const pages = data.count / limit;
                 setCount(pages);
                 setPokemons(data.results);
             });
+        } else {
+            alert("Ошибка HTTP: " + response.status);
+        }
     };
 
     useEffect(() => {
-        fetchPokemons();
+        fetchPokemons(offsetPage, limit);
+        fetchPokemons(0, -1, true);
     }, [offsetPage, limit]);
 
-    const search = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        
-        const form = event.target as HTMLFormElement;
-        const input = form.querySelector('#searchText') as HTMLInputElement;
-        
-        alert(!input.value ? 'empty string': input.value);
-    }
+    const search = (event: ChangeEvent) => {
+        let elem = event.target as HTMLInputElement;
+        let result = allPokemons.filter((i) =>
+            i.name.toLowerCase().includes(elem.value.toLowerCase())
+        );
+        if (elem.value !== "") {
+            setPokemons(result);
+        } else fetchPokemons(offsetPage, limit);
+    };
 
     return (
         <div>
             <h1>Home Page</h1>
-
-            <form onSubmit={event => search(event)}>
-                <input id="searchText" type="text" />
-                <button>search</button>
+            <form>
+                <input
+                    id="searchText"
+                    type="text"
+                    ref={searchInputRef}
+                    autoComplete="off"
+                    onChange={(event) => search(event)}
+                />
             </form>
-
             <ul>
-                {pokemons.map((i) => (
+                {pokemons.length > 0 
+                && pokemons.map((i) => (
                     <PokemonItem pokemon={i} key={i.name}>
                         <p>{i.name}</p>
                     </PokemonItem>
-                ))}
+                )) 
+                || <p>Pokemons not found</p>}
             </ul>
-
-            <div>
-                <button
-                    type="button"
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 1}
-                >
-                    &larr;
-                </button>
-                <span>
-                    Page {currentPage} of {Math.ceil(count)}
-                </span>
-                <button
-                    type="button"
-                    onClick={handleNextPage}
-                    disabled={currentPage === Math.ceil(count)}
-                >
-                    &rarr;
-                </button>
-                <select onChange={changeItemsHandler}>
-                    <option value="5">5</option>
-                    <option value="15">15</option>
-                    <option value="50">50</option>
-                </select>
-            </div>
+            {!searchInputRef.current?.value && (
+                <div>
+                    <button
+                        type="button"
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                    >
+                        &larr;
+                    </button>
+                    <span>
+                        Page {currentPage} of {Math.ceil(count)}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={handleNextPage}
+                        disabled={currentPage === Math.ceil(count)}
+                    >
+                        &rarr;
+                    </button>
+                    <select onChange={changeItemsHandler}>
+                        <option value="5">5</option>
+                        <option value="15">15</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            )}
         </div>
     );
 };
