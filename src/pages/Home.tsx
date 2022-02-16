@@ -74,6 +74,7 @@ const Home = () => {
     }, [offsetPage, limit]);
 
     const search = (event: ChangeEvent) => {
+        event.preventDefault();
         let elem = event.target as HTMLInputElement;
         let result = allPokemons.filter((i) =>
             i.name.toLowerCase().includes(elem.value.toLowerCase())
