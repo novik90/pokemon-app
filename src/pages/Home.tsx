@@ -3,6 +3,7 @@ import { PokemonUrl } from "../models/pokemon";
 import PokemonItem from "./PokemonItem";
 
 const Home = () => {
+
     const searchInputRef = useRef<HTMLInputElement>(null);
     const [count, setCount] = useState(0);
     const [limit, setLimit] = useState(5);
@@ -38,19 +39,11 @@ const Home = () => {
         setOffsetPage((prev) => prev + limit);
     };
 
-    const fetchPokemons = async (a: number, b: number, c?: boolean) => {
+    const fetchPokemons = async (offset: number, limit: number, allPokemons?: boolean) => {
         let response = await fetch(
-            `https://pokeapi.co/api/v2/pokemon/?offset=${a}&limit=${b}`
+            `https://pokeapi.co/api/v2/pokemon/?offset=${offset}&limit=${limit}`
         );
-        // .then((response) => {
-        //     return response.json();
-        // })
-        // .then((data) => {
-        //     const pages = data.count / limit;
-        //     setCount(pages);
-        //     setPokemons(data.results);
-        // });
-        if (c) {
+        if (allPokemons) {
             response.json().then((data) => {
                 setAllPokemons(data.results);
             });
@@ -93,6 +86,7 @@ const Home = () => {
                     type="text"
                     ref={searchInputRef}
                     autoComplete="off"
+                    placeholder="Search"
                     onChange={(event) => search(event)}
                 />
             </form>
@@ -125,9 +119,10 @@ const Home = () => {
                         &rarr;
                     </button>
                     <select onChange={changeItemsHandler}>
-                        <option value="5">5</option>
-                        <option value="15">15</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
                         <option value="50">50</option>
+                        <option value="100">100</option>
                     </select>
                 </div>
             )}

@@ -5,16 +5,24 @@ import { Pokemon } from "../models/pokemon";
 
 const PokemonDetails = () => {
     const [pokemonObject, setPokemonObject] = useState<Pokemon>();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const params = useParams();
 
     const fetchPokemons = async () => {
-        await fetch("https://pokeapi.co/api/v2/pokemon/" + params.name)
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setPokemonObject(data);
-            });
+        const response = await fetch(
+            "https://pokeapi.co/api/v2/pokemon/" + params.name
+        );
+        if (response.ok) {
+            response
+                .json()
+                .then((data) => {
+                    setPokemonObject(data);
+                })
+        } else {
+            //Выводить ошибку
+            console.log("Ошибка");
+        }
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -29,42 +37,52 @@ const PokemonDetails = () => {
                     pokemonObject?.name[0].toUpperCase()
                 )}
             </h1>
-            <div className={"common"}>
-                <div className={"common__item"}>
-                    <img
-                        alt={pokemonObject?.name}
-                        src={pokemonObject?.sprites?.front_default}
-                    ></img>
-                </div>
-                <div className={"common__item"}>
-                    <p>Height</p>
-                    <span>{pokemonObject?.height}</span>
-                </div>
-                <div className={"common__item"}>
-                    <p>Weight</p>
-                    <span>{pokemonObject?.weight}</span>
-                </div>
-            </div>
-            <div>
-                <h3>Stats</h3>
-                <div className="stats">
-                    <ul>
-                        {pokemonObject?.stats.map((i, index) => (
-                            <li key={index}>{i.stat.name} - {i.base_stat}</li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <h3>Types</h3>
-                <div className="types">
-                    {pokemonObject?.types.map((i, index) => (
-                        <span className={`type-${i.type.name}`} key={index}>
-                            {i.type.name}
-                        </span>
-                    ))}
-                </div>
-            </div>
+            {isLoading && <p>loading...</p>}
+            {!isLoading && (
+                <>
+                    <div className={"common"}>
+                        <div className={"common__item"}>
+                            <img
+                                alt={pokemonObject?.name}
+                                src={pokemonObject?.sprites?.front_default}
+                            ></img>
+                        </div>
+                        <div className={"common__item"}>
+                            <p>Height</p>
+                            <span>{pokemonObject?.height}</span>
+                        </div>
+                        <div className={"common__item"}>
+                            <p>Weight</p>
+                            <span>{pokemonObject?.weight}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Stats</h3>
+                        <div className="stats">
+                            <ul>
+                                {pokemonObject?.stats.map((i, index) => (
+                                    <li key={index}>
+                                        {i.stat.name} - {i.base_stat}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Types</h3>
+                        <div className="types">
+                            {pokemonObject?.types.map((i, index) => (
+                                <span
+                                    className={`type-${i.type.name}`}
+                                    key={index}
+                                >
+                                    {i.type.name}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

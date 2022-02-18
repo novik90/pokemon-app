@@ -1,6 +1,7 @@
 import "./App.css";
 import { NavLink, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 import PokemonDetails from "./pages/PokemonDetails";
 
 const App = () => {
@@ -16,7 +17,8 @@ const App = () => {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="pokemon/:name" element={<PokemonDetails />} />
+                <Route path=":name" element={<PokemonDetails />} />
+                <Route path="*" element={ <NotFound /> } />
             </Routes>
         </div>
     );

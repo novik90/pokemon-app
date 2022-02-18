@@ -5,7 +5,7 @@ import { PokemonUrl } from "../models/pokemon";
 const PokemonItem: FC<{ pokemon: PokemonUrl }> = (props) => {
     return (
         <li>
-            <Link to={"pokemon/"+props.pokemon.name}>
+            <Link to={props.pokemon.name}>
                 {props.pokemon.name}
             </Link>
         </li>
