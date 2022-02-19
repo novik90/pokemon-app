@@ -5,20 +5,20 @@ import NotFound from "./pages/NotFound";
 import PokemonDetails from "./pages/PokemonDetails";
 
 const App = () => {
-    
-
     return (
         <div>
-            <ul className="nav">
-                <li>
-                    <NavLink to="/">Home</NavLink>
-                </li>
-            </ul>
+            <nav>
+                <ul className="nav">
+                    <li>
+                        <NavLink to="/">Home</NavLink>
+                    </li>
+                </ul>
+            </nav>
 
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path=":name" element={<PokemonDetails />} />
-                <Route path="*" element={ <NotFound /> } />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
     );

@@ -22,8 +22,13 @@ export interface Pokemon {
 export interface PokemonUrl {
     name: string,
     url: string,
-    previous: string,
-    next: string
+}
+
+export interface Pokemons {
+    count: number,
+    next: string | null,
+    previous: string | null;
+    results: PokemonUrl[];
 }
 
 interface NameUrl {
