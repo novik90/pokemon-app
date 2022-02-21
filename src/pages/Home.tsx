@@ -1,8 +1,9 @@
 import PokemonList from "./PokemonList";
+import classes from "./Home.module.css";
 
 const Home = () => {
     return (
-        <div>
+        <div className={classes.container}>
             <PokemonList />
         </div>
     );

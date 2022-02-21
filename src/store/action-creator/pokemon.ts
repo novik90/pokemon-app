@@ -20,3 +20,13 @@ export const fetchPokemons = () => {
         }
     };
 };
+
+export const fetchPokemonDetails = () => {
+    return async (dispatch: Dispatch<PokemonAction>) => {
+        try {
+
+        } catch (e) {
+            
+        }
+    }
+}

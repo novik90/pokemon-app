@@ -40,25 +40,25 @@ const PokemonDetails = () => {
             {isLoading && <p>loading...</p>}
             {!isLoading && (
                 <>
-                    <div className={"common"}>
-                        <div className={"common__item"}>
+                    <div>
+                        <div>
                             <img
                                 alt={pokemonObject?.name}
                                 src={pokemonObject?.sprites?.front_default}
                             ></img>
                         </div>
-                        <div className={"common__item"}>
+                        <div>
                             <p>Height</p>
                             <span>{pokemonObject?.height}</span>
                         </div>
-                        <div className={"common__item"}>
+                        <div>
                             <p>Weight</p>
                             <span>{pokemonObject?.weight}</span>
                         </div>
                     </div>
                     <div>
                         <h3>Stats</h3>
-                        <div className="stats">
+                        <div>
                             <ul>
                                 {pokemonObject?.stats.map((i, index) => (
                                     <li key={index}>

@@ -28,7 +28,7 @@ const PokemonList: React.FC = () => {
     };
 
     return (
-        <div className={classes.container}>
+        <div>
             {!loading && (
                 <div className={classes.paginationBox}>
                     <PaginatedItems

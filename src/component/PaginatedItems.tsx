@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEventHandler } from "react";
+import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { PokemonUrl } from "../models/pokemon";
 import classes from "./Pagination.module.css";
@@ -23,25 +24,28 @@ const PaginatedItems: React.FC<{ itemsPerPage: number; data: PokemonUrl[]; chang
     };
 
     return (
-        <div>
+        <>
             <div className={classes["list-group"]}>
                 {currentItems.map((i) => (
-                    <a
+                    <Link
                         className={`${classes["list-group-item"]} ${classes["list-group-item-action"]}`}
                         key={i.name}
-                        href={i.name}
+                        to={i.name}
                     >
                         {i.name}
-                    </a>
+                    </Link>
                 ))}
             </div>
             <div className={classes.paginationBox}>
                 <ReactPaginate
+                    previousLabel="<<"
+                    nextLabel=">>"
                     breakLabel="..."
                     onPageChange={pageClickHandler}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={3}
                     pageCount={pageCount}
                     className={classes.pagination}
+                    marginPagesDisplayed={1}
                     pageLinkClassName={classes.pagination__link}
                     breakLinkClassName={classes.pagination__link}
                     nextClassName={classes.pagination__link}
@@ -55,7 +59,7 @@ const PaginatedItems: React.FC<{ itemsPerPage: number; data: PokemonUrl[]; chang
                     <option value="100">100</option>
                 </select>
             </div>
-        </div>
+        </>
     );
 };
 
