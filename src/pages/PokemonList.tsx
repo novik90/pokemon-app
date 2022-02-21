@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Pagination from "../component/Pagination";
+import PaginatedItems from "../component/PaginatedItems";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 import { fetchPokemons } from "../store/action-creator/pokemon";
+import classes from "./PokemonList.module.css";
 
 const PokemonList: React.FC = () => {
+    const [itemsPer, setItemsPer] = useState(10);
+
     const { data, error, loading } = useTypeSelector((state) => state.pokemon);
     const dispatch = useDispatch();
 
@@ -20,21 +23,28 @@ const PokemonList: React.FC = () => {
         return <h1>{error}</h1>;
     }
 
-    console.group("data")
-    console.log(data.count);
-    console.log(data.next);
-    console.log(data.previous);
-    console.log(data.results);
-    console.groupEnd();
+    const changeItemsHandler = (event: FormEvent<HTMLSelectElement>) => {
+        setItemsPer(parseInt(event.currentTarget.value))
+    };
 
     return (
-        <div>
-            <ul>
-                {data.results.map(i => 
-                    <li key={i.name}><a href={i.name}>{i.name}</a></li>    
-                )}
-            </ul>
-            <Pagination next={data.next} previous={data.previous} />
+        <div className={classes.container}>
+            {!loading && (
+                <div className={classes.paginationBox}>
+                    <PaginatedItems
+                        itemsPerPage={itemsPer}
+                        data={data.results}
+                        changeItems={changeItemsHandler}
+                    />
+                </div>
+            )}
+            {/* <ul>
+                {data.results.map((i) => (
+                    <li key={i.name}>
+                        <a href={i.name}>{i.name}</a>
+                    </li>
+                ))}
+            </ul> */}
         </div>
     );
 };
