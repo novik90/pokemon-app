@@ -1,9 +1,15 @@
+.search_container {
+    display: flex;
+    box-shadow: 0 10px 20px 12px rgba(0, 0, 0, 0.045);
+    border-radius: 8px;
+}
+
 .search_list {
     list-style: none;
 }
 
 .search_list li {
-    margin: 20px 0 ;
+    margin: 12px 0 ;
 }
 
 .form_control {
@@ -41,24 +47,4 @@
     line-height: 1.5;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-
-.suggest {
-    position: absolute;
-    background: #fff;
-    box-shadow: 0 10px 16px rgba(0, 0, 0, .15);
-    border-radius: 6px;
-    display: none;
-    top: 130px;
-    width: 59.6%;
-    z-index: 100;
-    border: 1px solid #ced4da;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.open {
-    display: block;
 }

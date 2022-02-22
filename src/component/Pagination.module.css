@@ -1,6 +1,7 @@
 .paginationBox {
     display: flex;
     justify-content: center;
+    
 }
 
 .paginationBox select {

@@ -59,13 +59,15 @@ const PokemonList: React.FC = () => {
                 placeholder="Search pokemon"
             />
             {searchRes && isSearchResults && (
-                <ul className={classes.search_list}>
-                    {searchRes.map((i) => (
-                        <li key={i.name}>
-                            <Link to={i.name}>{i.name}</Link>
-                        </li>
-                    ))}
-                </ul>
+                <div className={classes.search_container}>
+                    <ul className={classes.search_list}>
+                        {searchRes.map((i) => (
+                            <li key={i.name}>
+                                <Link to={i.name}>{i.name}</Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             )}
             {searchRes && !isSearchResults && <h3>No Pokemon Found</h3>}
             {!loading && !searchRes && (

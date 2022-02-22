@@ -1,4 +1,5 @@
 import axios from "axios";
+import { response } from "express";
 import { Dispatch } from "react";
 import { PokemonAction, PokemonActionTypes } from "../../types/pokemon";
 import { PokemonDetailsAction, PokemonDetailsActionTypes } from "../../types/pokemonDetails";
@@ -35,7 +36,7 @@ export const fetchPokemonDetails = (name: string) => {
         } catch (e) {
             dispatch({
                 type: PokemonDetailsActionTypes.FETCH_POKEMON_DETAILS_ERROR,
-                payload: "Erropr fetch Pokemon Details"
+                payload: `Pokemon ${name} not found!`
             })
         }
     }
