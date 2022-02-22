@@ -7,7 +7,7 @@ import classes from "./App.module.css";
 const App = () => {
     return (
         <div>
-            <nav>
+            <nav className={classes.mainNav}>
                 <ul className={classes.nav}>
                     <li>
                         <NavLink to="/">Home</NavLink>
