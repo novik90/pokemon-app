@@ -32,17 +32,19 @@ const PokemonList: React.FC = () => {
     };
 
     const searchHandler = (event: FormEvent<HTMLInputElement>) => {
+        const value = event.currentTarget.value.toLowerCase();
+
         const results = data.results.filter((i) =>
-            i.name.toLowerCase().includes(event.currentTarget.value)
+            i.name.toLowerCase().includes(value)
         );
         if (results.length > 0) {
             setIsSearchResults(true);
             setSearchRes(results);
         }
-        if (event.currentTarget.value === "") {
+        if (value === "") {
             setSearchRes(undefined);
         }
-        if (event.currentTarget.value !== "" && results.length === 0) {
+        if (value !== "" && results.length === 0) {
             setIsSearchResults(false);
         }
     };
