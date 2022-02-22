@@ -1,89 +1,90 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import "./PokemonDetails.css";
-import { Pokemon } from "../models/pokemon";
+import { useTypeSelector } from "../hooks/useTypeSelector";
+import { useDispatch } from "react-redux";
+import { fetchPokemonDetails } from "../store/action-creator/pokemon";
+import { useParams } from "react-router-dom";
 
 const PokemonDetails = () => {
-    const [pokemonObject, setPokemonObject] = useState<Pokemon>();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const params = useParams();
-
-    const fetchPokemons = async () => {
-        const response = await fetch(
-            "https://pokeapi.co/api/v2/pokemon/" + params.name
-        );
-        if (response.ok) {
-            response
-                .json()
-                .then((data) => {
-                    setPokemonObject(data);
-                })
-        } else {
-            //Выводить ошибку
-            console.log("Ошибка");
-        }
-        setIsLoading(false);
-    };
+    const name = params.name || "not_found";
+    const { data, error, loading } = useTypeSelector(
+        (state) => state.pokemonDetails
+    );
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchPokemons();
-    }, []);
+        dispatch(fetchPokemonDetails(name));
+    }, [dispatch]);
+
+    if (loading) {
+        return <h1>Loading...</h1>;
+    }
+
+    if (error) {
+        return <h1>{error}</h1>;
+    }
 
     return (
-        <div>
-            <h1>
-                {pokemonObject?.name.replace(
-                    pokemonObject?.name[0],
-                    pokemonObject?.name[0].toUpperCase()
-                )}
-            </h1>
-            {isLoading && <p>loading...</p>}
-            {!isLoading && (
-                <>
-                    <div>
-                        <div>
-                            <img
-                                alt={pokemonObject?.name}
-                                src={pokemonObject?.sprites?.front_default}
-                            ></img>
-                        </div>
-                        <div>
-                            <p>Height</p>
-                            <span>{pokemonObject?.height}</span>
-                        </div>
-                        <div>
-                            <p>Weight</p>
-                            <span>{pokemonObject?.weight}</span>
-                        </div>
-                    </div>
-                    <div>
-                        <h3>Stats</h3>
-                        <div>
-                            <ul>
-                                {pokemonObject?.stats.map((i, index) => (
-                                    <li key={index}>
-                                        {i.stat.name} - {i.base_stat}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
-                        <h3>Types</h3>
-                        <div className="types">
-                            {pokemonObject?.types.map((i, index) => (
-                                <span
-                                    className={`type-${i.type.name}`}
-                                    key={index}
+        <>
+            {!loading && (
+                <div className="card">
+                    <img
+                        className="card-img"
+                        src={data.sprites.front_default}
+                        alt={data.name}
+                    />
+
+                    <div className="card-body">
+                        <h2>{data.name}</h2>
+                        <article className="desc">
+                            <h3>Common</h3>
+                            <div className="desc__common">
+                                <span>Height</span>
+                                <span>{data.height}</span>
+                            </div>
+                            <div className="desc__common">
+                                <span>Weight</span>
+                                <span>{data.weight}</span>
+                            </div>
+                        </article>
+                        <article className="desc">
+                            <h3>Stats</h3>
+                            {data.stats.map((stat) => (
+                                <div
+                                    className="desc__stats"
+                                    key={stat.stat.name}
                                 >
-                                    {i.type.name}
-                                </span>
+                                    <span>{stat.stat.name}</span>
+                                    <span>{stat.base_stat}</span>
+                                </div>
                             ))}
-                        </div>
+                        </article>
+                        <article className="desc">
+                            <h3>Types</h3>
+                            <div className="desc__types">
+                                {data.types.map((type) => (
+                                    <span key={type.type.name} className={"type-" + type.type.name}>
+                                        {type.type.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </article>
+                        <article className="desc">
+                            <h3>Abilities</h3>
+                            {data.abilities.map((ability) => (
+                                <div
+                                    className="desc_ability"
+                                    key={ability.ability.name}
+                                >
+                                    <span>{ability.ability.name}</span>
+                                </div>
+                            ))}
+                        </article>
                     </div>
-                </>
+                </div>
             )}
-        </div>
+        </>
     );
 };
 

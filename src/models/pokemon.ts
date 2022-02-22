@@ -13,7 +13,7 @@ export interface Pokemon {
     order: number;
     past_types: any[];
     species: NameUrl;
-    sprites: Sprites;
+    sprites: Front;
     stats: Stat[];
     types: Type[];
     weight: number;
@@ -75,9 +75,9 @@ interface DreamWorld {
 
 interface Front {
     front_default: string;
-    front_female?: any;
-    front_shiny: string;
-    front_shiny_female?: any;
+    // front_female?: any;
+    // front_shiny: string;
+    // front_shiny_female?: any;
 }
 
 interface OfficialArtwork {
@@ -227,10 +227,10 @@ interface Versions {
     "generation-viii": GenerationViii;
 }
 
-interface Sprites extends BackFront {
-    other: Other;
-    versions: Versions;
-}
+// interface Sprites extends BackFront {
+//     other: Other;
+//     versions: Versions;
+// }
 
 interface Stat {
     base_stat: number;

@@ -38,13 +38,6 @@ const PokemonList: React.FC = () => {
                     />
                 </div>
             )}
-            {/* <ul>
-                {data.results.map((i) => (
-                    <li key={i.name}>
-                        <a href={i.name}>{i.name}</a>
-                    </li>
-                ))}
-            </ul> */}
         </div>
     );
 };
