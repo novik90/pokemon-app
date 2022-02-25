@@ -11,7 +11,7 @@ const PokemonList: React.FC = () => {
     const [itemsPer, setItemsPer] = useState(10);
     const [searchRes, setSearchRes] = useState<PokemonUrl[]>();
     const [isSearchResults, setIsSearchResults] = useState(true);
-
+        
     const { data, error, loading } = useTypeSelector((state) => state.pokemon);
     const dispatch = useDispatch();
 

@@ -8,7 +8,7 @@ const initialState: PokemonState = {
     error: null
 };
 
-export const pokemonReduser = (state = initialState, action: PokemonAction): PokemonState => {
+export const pokemonReducer = (state = initialState, action: PokemonAction): PokemonState => {
     switch (action.type) {
         case PokemonActionTypes.FETCH_POKEMONS:
             return { loading: true, error: null, data: initPokemon };

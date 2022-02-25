@@ -2,6 +2,7 @@ import axios from "axios";
 import { response } from "express";
 import { Dispatch } from "react";
 import { PokemonAction, PokemonActionTypes } from "../../types/pokemon";
+import { AbilitiesActionTypes, AbilityAction } from "../../types/pokemonAbility";
 import { PokemonDetailsAction, PokemonDetailsActionTypes } from "../../types/pokemonDetails";
 
 export const fetchPokemons = () => {
@@ -38,6 +39,17 @@ export const fetchPokemonDetails = (name: string) => {
                 type: PokemonDetailsActionTypes.FETCH_POKEMON_DETAILS_ERROR,
                 payload: `Pokemon ${name} not found!`
             })
+        }
+    }
+}
+
+export const fetchPokemonAbility = (url: string) => {
+    return async (dispatch: Dispatch<AbilityAction>) => {
+        try {
+            const response = await axios.get(url);
+            dispatch({type: AbilitiesActionTypes.FETCH_POKEMON_ABILITY, payload: response.data.flavor_text_entries[0].flavor_text});
+        } catch (e) {
+            console.log('hello error =(')
         }
     }
 }

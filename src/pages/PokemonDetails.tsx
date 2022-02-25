@@ -4,6 +4,7 @@ import { useTypeSelector } from "../hooks/useTypeSelector";
 import { useDispatch } from "react-redux";
 import { fetchPokemonDetails } from "../store/action-creator/pokemon";
 import { useParams } from "react-router-dom";
+import AbilityTooltip from "../component/AbilityTooltip";
 
 const PokemonDetails = () => {
     const params = useParams();
@@ -73,12 +74,7 @@ const PokemonDetails = () => {
                         <article className="desc">
                             <h3>Abilities</h3>
                             {data.abilities.map((ability) => (
-                                <div
-                                    className="desc_ability"
-                                    key={ability.ability.name}
-                                >
-                                    <span>{ability.ability.name}</span>
-                                </div>
+                                <AbilityTooltip name={ability.ability.name} url={ability.ability.url} key={ability.ability.name} />
                             ))}
                         </article>
                     </div>
