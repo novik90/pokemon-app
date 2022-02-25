@@ -3,13 +3,22 @@ import { Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { PokemonUrl } from "../models/pokemon";
 import classes from "./Pagination.module.css";
+import { useTypeSelector } from "../hooks/useTypeSelector";
+import { useDispatch } from "react-redux";
+import { addPokemonToCompare, fetchPokemonDetails } from "../store/action-creator/pokemon";
 
-const PaginatedItems: React.FC<{ itemsPerPage: number; data: PokemonUrl[]; changeItems: ChangeEventHandler<HTMLSelectElement> }> = (
-    props
-) => {
+const PaginatedItems: React.FC<{
+    itemsPerPage: number;
+    data: PokemonUrl[];
+    changeItems: ChangeEventHandler<HTMLSelectElement>;
+}> = (props) => {
     const [currentItems, setCurrentItems] = useState(props.data);
     const [pageCount, setPageCount] = useState(0);
     const [itemOffset, setItemOffset] = useState(0);
+
+    const {data, loading} = useTypeSelector(state => state.pokemonDetails);
+    const {data: dd, loading: ll} = useTypeSelector(state => state.compare);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const endOffset = itemOffset + props.itemsPerPage;
@@ -23,17 +32,23 @@ const PaginatedItems: React.FC<{ itemsPerPage: number; data: PokemonUrl[]; chang
         setItemOffset(newOffset);
     };
 
+    const addPokemonHandler = (e: string) => {
+        // dispatch(fetchPokemonDetails(e));
+    }
+
     return (
         <>
             <div className={classes["list-group"]}>
                 {currentItems.map((i) => (
-                    <Link
-                        className={`${classes["list-group-item"]} ${classes["list-group-item-action"]}`}
-                        key={i.name}
-                        to={i.name}
-                    >
-                        {i.name}
-                    </Link>
+                    <div key={i.name}>
+                        <Link
+                            className={`${classes["list-group-item"]} ${classes["list-group-item-action"]}`}
+                            to={i.name}
+                        >
+                            {i.name}
+                        </Link>
+                        {/* <button type="button" onClick={() => addPokemonHandler(i.name)}>Add</button> */}
+                    </div>
                 ))}
             </div>
             <div className={classes.paginationBox}>

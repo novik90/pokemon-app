@@ -1,6 +1,8 @@
 import axios from "axios";
-import { response } from "express";
 import { Dispatch } from "react";
+import { useTypeSelector } from "../../hooks/useTypeSelector";
+import { Pokemon } from "../../models/pokemon";
+import { CompareAction, CompareActionTypes } from "../../types/comparePokemons";
 import { PokemonAction, PokemonActionTypes } from "../../types/pokemon";
 import { AbilitiesActionTypes, AbilityAction } from "../../types/pokemonAbility";
 import { PokemonDetailsAction, PokemonDetailsActionTypes } from "../../types/pokemonDetails";
@@ -50,6 +52,20 @@ export const fetchPokemonAbility = (url: string) => {
             dispatch({type: AbilitiesActionTypes.FETCH_POKEMON_ABILITY, payload: response.data.flavor_text_entries[0].flavor_text});
         } catch (e) {
             console.log('hello error =(')
+        }
+    }
+}
+
+export const addPokemonToCompare = (pokemon: Pokemon) => {
+    return async (dispatch: Dispatch<CompareAction>) => {
+        try {
+            dispatch({
+                type: CompareActionTypes.ADD_POKEMON,
+                payload: [pokemon]
+            })
+            console.log('add pokemon')
+        } catch (e) {
+            console.log('error')
         }
     }
 }

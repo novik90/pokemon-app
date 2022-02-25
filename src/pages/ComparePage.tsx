@@ -1,9 +1,16 @@
-import React from "react";
+import { useTypeSelector } from "../hooks/useTypeSelector";
 
 const ComparePage = () => {
+
+    const {data} = useTypeSelector(state => state.compare)
+
+    console.log(data)
+
     return (
-        <h1>Compare Page</h1>
-    )
-}
+        <div>
+            <h1>Compare Page</h1>
+        </div>
+    );
+};
 
 export default ComparePage;
